@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<div style="display:flex; flex-wrap:wrap; width:100%">
+
+    {% if user.is_authenticated %}
+
+    {% else %}
+    <div style="display:flex; justify-content:center; width:100%">
+        <a class="accueil" href="{% url 'login' %}">
+            <div class="bouton_liste connexion">Connexion</div>
+        </a>
+    </div>
+    {% endif %}
+    <div style="display:flex; width:100%; justify-content:center; margin-top:2em">
+        <div class="row1" style="width:33%; justify-content:space-between">
+            <div class="bouton_liste">
+                <a href="{% url 'equipement_list' %}">
+                    <img src="{% static 'img/equipement.png' %}">
+                </a>
+            </div>
+            <div class="bouton_liste">
+                <a href="{% url 'personnel_list' %}">
+                    <img src="{% static 'img/personnel.png' %}">
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="display:flex; width:100%; justify-content:center; margin-top: 2em;">
+        <div class="row1" style="width:33%; justify-content:space-between">
+            <div class="bouton_liste">
+                <a href="{% url 'ripe_list' %}">
+                    <img src="{% static 'img/adress_ip.png' %}">
+                </a>
+            </div>
+            <div class="bouton_liste">
+                <a href="{% url 'mail_list' %}">
+                    <img src="{% static 'img/email.png' %}">
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

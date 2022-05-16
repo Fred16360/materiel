@@ -1,0 +1,33 @@
+{% extends 'popup.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="">
+  <div class="row justify-content-center">
+    <div style="width:80%">
+      <h2 class="text-center">Suppression</h2>
+
+      <div class="cadre_form">
+
+        <form method="post">
+          {% csrf_token %}
+          <div>Êtes-vous sûre de vouloir supprimer la relation :</div>
+          <div style="font-weight:bold">{{ rpm.mail_id }} => {{ rpm.personnel_id }}</div>
+          <div class="containernw" style="justify-content: space-around; margin-top: 10px;">
+            <div>
+              <input type="submit" class="btn btn-primary btn-block" value="Confirmer" />
+            </div>
+            <div>
+              <input type="reset" class="btn btn-danger btn-block" value="Annuler" onclick="window.close()">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock content %}

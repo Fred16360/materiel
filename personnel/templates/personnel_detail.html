@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="box" style="justify-content: center; font-size: 11px;">
+  <div style="width: 90%">
+<div class="cadre_form">
+
+
+
+
+    <div>{{ object.nom }}</div>
+    <div>{{ object.prenom.label }}</div>
+    <div>{{ object.prenom }}</div>
+    <div class="box"><div>{{ form.stagiaire.label }}</div><div>{{ form.stagiaire }}</div></div>
+ 
+
+    <div class="box" style="justify-content: space-between; margin-top: 10px;">
+        <div style="width:45%">
+        <a href="{% url 'personnel_list' %}">
+            <button class="btn btn-primary btn-block">Retour à la liste</button>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+</div>
+</div>
+
+
+{% endblock content %}

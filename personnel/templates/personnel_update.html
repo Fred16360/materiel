@@ -1,0 +1,262 @@
+{% extends 'personnel_create.html' %}
+{% load static %}
+
+{% block update %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // CALENDRIER POUR LES SAISIES DE DATE
+        $.datepicker.regional['fr'] = {
+            closeText: 'Fermer',
+            prevText: '&#x3c;Préc',
+            nextText: 'Suiv&#x3e;',
+            currentText: 'Aujourd\'hui',
+            monthNames: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin',
+                'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'
+            ],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun',
+                'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'
+            ],
+            dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+            dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+            dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            minDate: '-30Y',
+            maxDate: '+10Y',
+            numberOfMonths: 1,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults($.datepicker.regional['fr']);
+
+        $("#id_date_debut").datepicker({
+            showOn: "button",
+            buttonImage: "/static/img/calendrier20.png",
+        });
+
+        $("#id_date_fin").datepicker({
+            showOn: "button",
+            buttonImage: "/static/img/calendrier20.png",
+        });
+
+        $("#insert_note_form").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'save_note' personnel_id %}",
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    note_personnel: $('#note_personnel').html(),
+                },
+                success: function (data) {
+                    let rows = '';
+                    data.personnelnote_list.forEach(personnelnote => {
+                        rows += `
+                            <span class="write_by">${ personnelnote.write_by_id }${ personnelnote.write_date }</span>
+                            <br>
+                            <span>${ personnelnote.note }</span>
+                            <hr> `;
+                    });
+                    $("#list_notes").empty().append(rows);
+                    $("#note_personnel").empty().html("votre message !");
+                }
+            });
+        })
+
+        $("#note_personnel").focusin(function (e) {
+            e.preventDefault();
+            $("#note_personnel").html("");
+        })
+
+        $("#note_personnel").focusout(function (e) {
+            e.preventDefault();
+            if ($("#note_personnel").html() == "") {
+                $("#note_personnel").html("votre message !");
+            }
+        })
+
+    })
+</script>
+
+<script>
+    var clipboard = new ClipboardJS('.ctrl_c');
+
+    clipboard.on('success', function (e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function (e) {
+        console.log(e);
+    });
+</script>
+
+<!-- LISTE DES EQUIPEMENTS EN RELATION -->
+<div style="width: 35%; min-width:460px">
+    <div id="list_equipement">
+
+        <fieldset style="height: auto">
+            <legend>Equipement</legend>
+            <a href="#" onclick="javascript:popup('{% url 'rpe_create' personnel_id %}','rpe_create',380,420)">
+                <button class="btn btn-primary" style="font-size: 0.7rem">Ajout d'une relation avec un
+                    équipement</button>
+            </a>
+            <div>
+                <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+                    {% for equipement in list_equipement %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'equipement_update' equipement.equipement_id.id %}" target="_blank" title="Modification de l'Equipement">
+                                {{ equipement.equipement_id }}
+                            </a>
+                        </td>
+                        <td>{{ equipement.equipement_id.type_id }}</td>
+                        <td>{{ equipement.equipement_id.marque }}</td>
+                        <td>{{ equipement.equipement_id.modele }}</td>
+                        <td style="width: 2%">
+                            <a href="#" onClick="javascript:popup('{% url 'rpe_delete' equipement.id %}','personnel_delete',500,250)" title="Suppression de la relation Equipement">
+                                <img src="{% static 'img/supprimer.png' %}" height="15px">
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </fieldset>
+    </div>
+
+    <!-- LISTE DES DIFFRENTS COMPTES ASSOCIES A LA PERSONNE -->
+    <div id="list_compte">
+        <fieldset style="height: auto">
+            <legend>Compte</legend>
+            <a href="#" onclick="javascript:popup('{% url 'compte_create_popup' personnel_id %}','compte_create_popup',550,350)">
+                <button class="btn btn-primary" style="font-size: 0.7rem">Ajout d'un compte</button>
+            </a>
+            <div>
+                <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+                    {% for compte in list_compte %}
+                    <tr>
+                        <td style="width:12%">{{ compte.type_compte_id }}</td>
+                        <td>{{ compte.login }}</td>
+                        <td>
+                            <img class="ctrl_c" data-clipboard-action="copy" data-clipboard-text="{{ compte.login }}" src="{% static 'img/copier.png' %}" height="15px" style="cursor:pointer"
+                                title="Copier dans le presse papier">
+                        </td>
+                        <td><a href="#" onclick="display_mdp('{{ compte.default_pwd }}')" style="font-size:12px" title="Affiche le mot de passe">???</a>
+                        </td>
+                        <td>
+                            <img class="ctrl_c" data-clipboard-action="copy" data-clipboard-text="{{ compte.default_pwd }}" src="{% static 'img/copier.png' %}" height="15px"
+                                title="Copier dans le presse papier">
+                        </td>
+                        <td>
+                            <a href="{{ compte.lien_site }}" target="_blank" title="Ouvre le lien dans un nouvel onglet">
+                                {{ compte.lien_site|slice:"30" }}
+                            </a>
+                        </td>
+                        <td style="width:2%"><a href="#" onclick="javascript:popup('{% url 'compte_update_popup' compte.id %}','compte_update_popup',550,350)" title="Modification du compte"><img
+                                    src="{% static 'img/modifier.png' %}" height="15px"></a>
+                        </td>
+                        <td style="width:2%"><a href="#" onclick="javascript:popup('{% url 'compte_delete' compte.id %}','compte_delete',500,200)" title="Suppression du compte"><img
+                                    src="{% static 'img/supprimer.png' %}" height="15px"></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </fieldset>
+    </div>
+
+    <!-- AFFICHAGE DU MOT DE PASSE -->
+
+    <div class="form_background" id="mdp_view" style="z-index:101">
+        <div class="form_content" style="width:200px; height: 100px;">
+
+            <div class="form_title row1">
+                <div style="width: 93%; padding: 0.2em; text-align: center">mot de passe</div>
+                <div class="close_button" onclick="close_view('mdp_view')">X</div>
+            </div>
+            <div id="password" style="text-align:center; margin-top:1em">
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- LISTE DES DIFFRENTS EMAILS ASSOCIES A LA PERSONNE -->
+    <div id="list_mail">
+        <fieldset style="height: auto">
+            <legend>Email</legend>
+            <a href="#" onclick="javascript:popup('{% url 'rpm_create_popup' personnel_id %}','rpm_create_popup',350,150)">
+                <button class="btn btn-primary" style="font-size: 0.7rem">Ajout relation d'un email</button>
+            </a>
+            <div>
+                <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+
+                    {% for mail in list_mail %}
+                    <tr>
+                        <td style="width:35%">
+                            <a href="#" onClick="javascript:popup('{% url 'mail_update' mail.mail_id.id %}','mail_update',540,280)" title="Modification de l'Email">
+
+                                {{ mail.mail_id }}
+                            </a>
+                        </td>
+                        <td style="width:5%">
+                            <img class="ctrl_c" data-clipboard-action="copy" data-clipboard-text="{{ mail.mail_id }}" src="{% static 'img/copier.png' %}" height="15px"
+                                title="Copier dans le presse papier">
+                        </td>
+                        <td style="width:8%"></td>
+                        <td style="width:5%"><a href="#" onclick="display_mdp('{{ mail.mail_id.password }}')" style="font-size:12px" title="Afficher le mot de passe">???</a></td>
+                        <td style="width:5%">
+                            <img class="ctrl_c" data-clipboard-action="copy" data-clipboard-text="{{ mail.mail_id.password }}" src="{% static 'img/copier.png' %}" height="15px"
+                                title="Copier dans le presse papier">
+                        </td>
+                        <td style="width:5%"></td>
+                        <td>
+                            <a href="#" onclick="javascript:popup('{% url 'configmail_update' mail.mail_id.id %}','configmail_update',600,560)" title="Modification de la configuration Email">
+                                {{ mail.mail_id.config_mail_id }}
+                            </a>
+                        </td>
+                        <td style="width: 2%">
+                            <a href="#" onClick="javascript:popup('{% url 'rpm_delete' mail.id %}','Email_delete',500,250)" title="Suppression de la relation Email">
+                                <img src="{% static 'img/supprimer.png' %}" height="15px">
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </fieldset>
+    </div>
+
+    <!-- ADRESSE IP ASSOCIE A L'EQUIPEMENT -->
+    <div id="list_mail">
+        <fieldset style="height: auto">
+            <legend>Adresse Ip</legend>
+            <div>
+                <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+                    {% for ip in ip_adresse %}
+                    <td>{{ ip.ip_machine }}</td>
+                    <td>{{ ip.description }}</td>
+                    {% endfor %}
+                </table>
+            </div>
+        </fieldset>
+    </div>
+
+</div>
+
+{% endblock update %}
+
+{% block notes %}
+
+
+
+
+
+{% endblock notes %}

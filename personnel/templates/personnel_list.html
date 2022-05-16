@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<script>
+  function list_stagiaires() {
+    document.getElementById('list_stagiaires').style.display = "block";
+    document.getElementById('list_personnel').style.display = "none";
+    document.getElementById('no_actif_list').style.display = "none";
+  }
+
+  function list_personnel() {
+    document.getElementById('list_stagiaires').style.display = "none";
+    document.getElementById('list_personnel').style.display = "block";
+    document.getElementById('no_actif_list').style.display = "none";
+  }
+
+  function no_actif_list() {
+    document.getElementById('list_stagiaires').style.display = "none";
+    document.getElementById('list_personnel').style.display = "none";
+    document.getElementById('no_actif_list').style.display = "block";
+  }
+  
+</script>
+
+<div class="container-fluid col col-lg-4 col-md-8">
+
+  <div style="display:flex; flex-wrap: nowrap">
+    <a href="{% url 'personnel_create' %}">
+      <button class="btn btn-success" style="font-size: 0.7rem; margin-right: 10px;"><img
+          src="{% static 'img/ajouter.png' %}" height="12px"> Ajout d'une personne</button>
+    </a>
+    <a href="#" onclick="list_personnel()">
+      <button class="btn btn-primary" style="font-size: 0.7rem; margin-right: 10px;">Liste du personnel</button>
+    </a>
+    <a href="#" onclick="list_stagiaires()">
+      <button class="btn btn-primary" style="font-size: 0.7rem; margin-right: 10px;">Liste des stagiaires</button>
+    </a>
+    <a href="#" onclick="no_actif_list()">
+      <button class="btn btn-primary" style="font-size: 0.7rem;">Anciens membres du personnel</button>
+    </a>
+  </div>
+
+  <div id="list_personnel">
+    <table class="table table-light table-striped p0">
+      <div class="table-responsive">
+        <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+          <thead class="table-success">
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Société</th>
+              <th>Agence</th>
+            </tr>
+
+          </thead>
+          <tbody>
+            {% for personnel in personnel_list %}
+            <tr>
+              <td style="width: 25%"><a href="{% url 'personnel_update' personnel.id %}">{{ personnel.nom }}</a></td>
+              <td style="width: 25%">{{ personnel.prenom }}</td>
+              <td style="width: 25%">{{ personnel.societe_id }}</td>
+              <td style="width: 21%">{{ personnel.agence_id }}</td>
+              <td style="width: 2%"><a href="{% url 'personnel_update' personnel.id %}"><img
+                    src="{% static 'img/modifier.png' %}" height="15px"></a></td>
+              <td style="width: 2%"><a href="#"
+                  onClick="javascript:popup('{% url 'personnel_delete' personnel.id %}','personnel_delete',500,250)"><img
+                    src="{% static 'img/supprimer.png' %}" height="15px"></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </table>
+  </div>
+</div>
+
+<div id="list_stagiaires" class="container-fluid col col-lg-4 col-md-8" style="display: none">
+
+  <table class="table table-light table-striped p0">
+    <div class="table-responsive">
+      <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+        <thead class="table-success">
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Société</th>
+            <th>Agence</th>
+          </tr>
+
+        </thead>
+        <tbody>
+          {% for personnel in stagiaire_list %}
+          <tr>
+            <td style="width: 25%"><a href="{% url 'personnel_update' personnel.id %}">{{ personnel.nom }}</a></td>
+            <td style="width: 25%">{{ personnel.prenom }}</td>
+            <td style="width: 25%">{{ personnel.societe_id }}</td>
+            <td style="width: 21%">{{ personnel.agence_id }}</td>
+            <td style="width: 2%"><a href="{% url 'personnel_update' personnel.id %}"><img
+                  src="{% static 'img/modifier.png' %}" height="15px"></a></td>
+            <td style="width: 2%"><a href="#"
+                onClick="javascript:popup('{% url 'personnel_delete' personnel.id %}','personnel_delete',500,250)"><img
+                  src="{% static 'img/supprimer.png' %}" height="15px"></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </table>
+
+</div>
+
+<div id="no_actif_list" class="container-fluid col col-lg-4 col-md-8" style="display: none">
+
+  <table class="table table-light table-striped p0">
+    <div class="table-responsive">
+      <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+        <thead class="table-success">
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Société</th>
+            <th>Agence</th>
+          </tr>
+
+        </thead>
+        <tbody>
+          {% for personnel in no_actif_list %}
+          <tr>
+            <td style="width: 25%"><a href="{% url 'personnel_update' personnel.id %}">{{ personnel.nom }}</a></td>
+            <td style="width: 25%">{{ personnel.prenom }}</td>
+            <td style="width: 25%">{{ personnel.societe_id }}</td>
+            <td style="width: 21%">{{ personnel.agence_id }}</td>
+            <td style="width: 2%"><a href="{% url 'personnel_update' personnel.id %}"><img
+                  src="{% static 'img/modifier.png' %}" height="15px"></a></td>
+            <td style="width: 2%"><a href="#"
+                onClick="javascript:popup('{% url 'personnel_delete' personnel.id %}','personnel_delete',500,250)"><img
+                  src="{% static 'img/supprimer.png' %}" height="15px"></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </table>
+
+</div>
+
+
+{% endblock content %}

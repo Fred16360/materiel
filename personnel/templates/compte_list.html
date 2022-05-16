@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<div class="container-fluid col col-lg-4 col-md-8">
+
+  <div style="display:flex; flex-wrap: nowrap">
+    <a href="{% url 'compte_create' %}">
+      <button class="btn btn-success" style="font-size: 0.7rem; margin-right: 10px;"><img
+          src="{% static 'img/ajouter.png' %}" height="12px"> Ajout d'un compte</button>
+    </a>
+  </div>
+
+  <div>
+    <table class="table table-light table-striped p0">
+      <div class="table-responsive">
+        <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+          <thead class="table-success">
+            <tr>
+              <th>Nom</th>
+              <th>Type</th>
+              <th>Login</th>
+              <th>Lien</th>
+            </tr>
+
+          </thead>
+          <tbody>
+            {% for compte in compte_list %}
+            <tr>
+              <td style="width: 15%"><a href="{% url 'compte_update' compte.id %}">{{ compte.personnel_id }}</a></td>
+              <td style="width: 15%">{{ compte.type_compte_id }}</td>
+              <td style="width: 15%">{{ compte.login }}</td>
+              <td style="width: 55%">{{ compte.lien_site }}</td>
+              <td style="width: 2%"><a href="{% url 'compte_update' compte.id %}"><img
+                    src="{% static 'img/modifier.png' %}" height="15px"></a></td>
+              <td style="width: 2%"><a href="#"
+                  onClick="javascript:popup('{% url 'compte_delete' compte.id %}','compte_delete',500,250)"><img
+                    src="{% static 'img/supprimer.png' %}" height="15px"></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </table>
+  </div>
+</div>
+
+
+{% endblock content %}

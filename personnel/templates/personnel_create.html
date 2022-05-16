@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // CALENDRIER POUR LES SAISIES DE DATE
+        $.datepicker.regional['fr'] = {
+            closeText: 'Fermer',
+            prevText: '&#x3c;Préc',
+            nextText: 'Suiv&#x3e;',
+            currentText: 'Aujourd\'hui',
+            monthNames: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin',
+                'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'
+            ],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun',
+                'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'
+            ],
+            dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+            dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+            dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            minDate: '-30Y',
+            maxDate: '+10Y',
+            numberOfMonths: 1,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults($.datepicker.regional['fr']);
+
+        $("#id_date_debut").datepicker({
+            showOn: "button",
+            buttonImage: "/static/img/calendrier20.png",
+        });
+
+        $("#id_date_fin").datepicker({
+            showOn: "button",
+            buttonImage: "/static/img/calendrier20.png",
+        });
+
+    })
+</script>
+
+<div style="justify-content:center; width:25%">
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <fieldset>
+            <legend>Généralités</legend>
+
+            <div class="box">
+                <div class="col-2" style="text-align: end">
+                    <label>{{ form.nom.label }}</label>
+                </div>
+                <div class="col-10">
+                    {{ form.nom }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-2" style="text-align: end">
+                    <label>{{ form.prenom.label }}</label>
+                </div>
+                <div class="col-10">
+                    {{ form.prenom }}
+                </div>
+            </div>
+
+            <div class="mt-3 mb-3">
+                <label style="margin-right:10px;">{{ form.stagiaire.label }}</label>
+                {{ form.stagiaire }}
+            </div>
+
+            <div class="box">
+                <div class="col-6" style="text-align: end">
+                    <label>{{ form.date_debut.label }}</label>
+                </div>
+                <div class="col-5" style="display: flex">
+                    {{ form.date_debut }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-6" style="text-align: end">
+                    <label>{{ form.date_fin.label }}</label>
+                </div>
+                <div class="col-5" style="display: flex">
+                    {{ form.date_fin }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-6" style="text-align: end">
+                    <label>{{ form.societe_id.label }}</label>
+                </div>
+                <div class="col-6" style="display: flex">
+                    {{ form.societe_id }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-6" style="text-align: end">
+                    <label>{{ form.agence_id.label }}</label>
+                </div>
+                <div class="col-6" style="display: flex;">
+                    {{ form.agence_id }}
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <label style="margin-right:10px;">{{ form.isactif.label }}</label>
+                {{ form.isactif }}
+            </div>
+
+            <div class="row mt-3 justify-content-around">
+                <div class="col-4">
+                    <input type="submit" class="col-12 btn btn-primary btn-block" value="Ajouter" />
+                </div>
+
+                <div class="col-4">
+                    <a href="{% url 'personnel_list' %}">
+                        <input type="cancel" class="col-12 btn btn-danger btn-block" value="Annuler" />
+                    </a>
+                </div>
+            </div>
+
+
+        </fieldset>
+    </form>
+
+    {% if create == 0 %}
+    <!-- LISTE DES NOTES -->
+    <div>
+        <form method="post" id="insert_note_form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="list" style="height: 420px">
+                <legend>Notes</legend>
+                <div id="list_notes">
+                    {% for personnelnote in list_personnelnote %}
+                    <span class="write_by">{{ personnelnote.write_by_id }}
+                        {{ personnelnote.write_date|date:"d/m/Y h:i:s" }}</span>
+                    <br>
+                    <span>{{ personnelnote.note|safe }}</span>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </fieldset>
+            <div class="box">
+
+                <div contenteditable="true" id="note_personnel" class="form-control form-control-sm" style="width: 95%">
+                    votre message !</div>
+
+                <input name="insert_note" id="insert_note" type="image" src="{% static '/img/ajouter.png' %}" height="23" style="margin-top: 5px">
+            </div>
+
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock content %}
