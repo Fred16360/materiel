@@ -1,0 +1,80 @@
+{% extends 'popup.html' %}
+{% load static %}
+
+{% block content %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    })
+</script>
+
+
+<form method="post" style="margin-top: 1em;">
+
+    {% csrf_token %}
+    <div class="d-flex justify-content-center">
+
+        <div style="width: 500px;">
+            <div class="box">
+                <div class="col-4" style="text-align: end">
+                    <label>{{ form.compte_mail.label }}</label>
+                </div>
+                <div class="col-8">
+                    {{ form.compte_mail }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-4" style="text-align: end">
+                    <label>{{ form.password.label }}</label>
+                </div>
+                <div class="col-8">
+                    {{ form.password }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-4" style="text-align: end">
+                    <label>{{ form.alias.label }}</label>
+                </div>
+                <div class="col-8">
+                    {{ form.alias }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-4" style="text-align: end">
+                    <label>{{ form.capacite.label }}</label>
+                </div>
+                <div class="col-2">
+                    {{ form.capacite }}
+                </div>
+                <div class="col-2">
+                    {{ form.mo_go }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-4" style="text-align: end">
+                    <label>{{ form.config_mail_id.label }}</label>
+                </div>
+                <div class="col-6">
+                    {{ form.config_mail_id }}
+                </div>
+            </div>
+
+            <div class="box" style="justify-content: space-around; margin-top: 20px;">
+                <div class="col-4">
+                    <input type="submit" class="col-12 btn btn-primary btn-block" value="Ajouter" />
+                </div>
+                <div class="col-4">
+                    <a href="{% url 'mail_list' %}">
+                        <input type="cancel" class="col-12 btn btn-danger btn-block" value="Annuler" />
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+
+{% endblock content %}

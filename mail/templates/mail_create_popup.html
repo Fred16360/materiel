@@ -1,0 +1,172 @@
+{% extends 'popup_form.html' %}
+{% load static %}
+
+{% block content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    
+        $("#id_hebergeur_id").focusin(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'ajax_load_hebergeur' %}",
+                type:'POST',
+                dataType: 'json',
+                data:{
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                },
+                success: function(data) {
+                    let rows = '';
+                    data.hebergeurs.forEach(hebergeur => {
+                        rows += `
+                        <option value="${ hebergeur.id }">${ hebergeur.nom }</option> `;
+                    });
+                    $("#id_hebergeur_id").empty().append(rows);
+                }
+            });
+        })
+    
+        $("#id_societe_id").focusin(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'ajax_load_societe' %}",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                },
+                success: function(data) {
+                    let rows = '';
+                    data.societe_list.forEach(societe => {
+                        rows += `
+                        <option value="${ societe.id }">${ societe.nom }</option> `;
+                    });
+                    $("#id_societe_id").empty().append(rows);
+                }
+            })
+        })
+    
+    })
+    </script>
+
+<form method="post" id="mail_form">
+    {% csrf_token %}
+    <div class="d-flex justify-content-center">
+
+        <div class="col-5">
+            <div class="row">
+                <div class="col-10">
+                    <label>{{ form.hebergeur_id.label }}</label>
+                    {{ form.hebergeur_id }}
+                </div>
+                <div class="col-1">
+                    <a href="#"
+                        onClick="window.close; javascript:popup('{% url 'hebergeur_create_popup' %}','hebergeur_create_popup',500,600)">
+                        <img style="margin-top: 30px;" src="{% static 'img/ajouter.png' %}" height="25px">
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <label>{{ form.societe_id.label }}</label>
+                    {{ form.societe_id }}
+                </div>
+                <div class="col-1">
+                    <a href="#"
+                        onClick="window.close; javascript:popup('{% url 'societe_create_popup' %}','societe_create_popup',400,200)">
+                        <img style="margin-top: 30px;" src="{% static 'img/ajouter.png' %}" height="25px">
+                    </a>
+                </div>
+            </div>
+            <div class="col-8">
+                <label>{{ form.compte_mail.label }}</label>
+                {{ form.compte_mail }}
+            </div>
+            <div class="col-8">
+                <label>{{ form.password.label }}</label>
+                {{ form.password }}
+            </div>
+            <div class="col-12">
+                <label>{{ form.alias.label }}</label>
+                {{ form.alias }}
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label>{{ form.capacite.label }}</label>
+                    {{ form.capacite }}
+                </div>
+                <div class="col-2 mt-4">
+                    {{ form.mo_go }}
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="col-5">
+                <label>{{ form.nbr_utilisation.label }}</label>
+            </div>
+            <div class="col-2">
+                {{ form.nbr_utilisation }}
+            </div>
+        </div>
+
+        <div style="width:1%"></div>
+
+        <div class="col-5">
+            <div>
+                <label>{{ form.commentaire.label }}</label>
+                {{ form.commentaire }}
+            </div>
+            <div>
+                <label>{{ form.blackberry.label }}</label>
+                {{ form.blackberry }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="d-flex justify-content-center mt-3">
+
+        <div class="col-5">
+            <div class="row">
+                <div class="col-3" style="margin-left:-8px">
+                    <input type="submit" class="col-12 btn btn-primary btn-block" value="Ajouter" />
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'mail_list' %}">
+                        <input type="cancel" class="col-12 btn btn-danger btn-block" value="Annuler" />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="width:1%"></div>
+
+        <div class="col-5"></div>
+
+</form>
+
+
+{% endblock content %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="javascript">
+
+$("#id_hebergeur_id").focusin(function(e){
+    e.preventDefault();
+
+    $.ajax({
+        url:'/ajax/hebergeur/',
+        data:{
+            hebergeur_id:$('#id_hebergeur_id').val(),
+            csrfmiddlewaretoken: csrftoken,
+        },
+        success: function(data) {
+            $("#id_hebergeur_id").html(data);
+        })
+    });
+})
+
+</script>

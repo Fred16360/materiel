@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<script>
+  var clipboard = new ClipboardJS('.ctrl_c');
+
+  clipboard.on('success', function (e) {
+    console.log(e);
+  });
+
+  clipboard.on('error', function (e) {
+    console.log(e);
+  });
+</script>
+
+<div class="container-fluid col-6">
+  <div>
+    <a href="#" onClick="javascript:popup('{% url 'mail_create' %}','mail_create',540,280)">
+      <button class="btn btn-success" style="font-size: 0.7rem;"><img src="{% static 'img/ajouter.png' %}" height="12px"> Ajout d'un Email</button>
+    </a>
+  </div>
+
+  <table class="table table-light table-striped p0">
+    <div class="table-responsive">
+      <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+        <thead class="table-success">
+          <tr>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+            <th>MDP</th>
+            <th></th>
+            <th>Alias</th>
+            <th></th>
+            <th>Commentaire</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for mail in mail_list %}
+          <tr>
+            <td style="width: 25%">
+              <a href="#" onClick="javascript:popup('{% url 'mail_update' mail.id %}','mail_update',540,250)">
+                {{ mail.compte_mail }}
+              </a>
+            </td>
+            <td style="width:1%">
+              <img class="ctrl_c" data-clipboard-action="copy" data-clipboard-text="{{ mail.compte_mail }}" src="{% static 'img/copier.png' %}" height="15px">
+            </td>
+            <td style="width:2%"></td>
+            <td style="width:1%"><a href="#" onclick="display_mdp('{{ mail.password }}')" style="font-size:12px">???</a>
+            </td>
+            <td style="width:1%">
+              <img class="ctrl_c" data-clipboard-action="copy" data-clipboard-text="{{ mail.password }}" src="{% static 'img/copier.png' %}" height="15px">
+            </td>
+
+            <td style="width: 25%">{{ mail.alias }}</td>
+            <td style="width:1%">
+              <img class="ctrl_c" data-clipboard-action="copy" data-clipboard-text="{{ mail.alias }}" src="{% static 'img/copier.png' %}" height="15px">
+            </td>
+            <td style="width: 40%">{{ mail.commentaire }}</td>
+
+            <td style="width: 1%">
+              <a href="#" onClick="javascript:popup('{% url 'mail_update' mail.id %}','mail_update',540,250)">
+                <img src="{% static 'img/modifier.png' %}" height="15px">
+              </a>
+            </td>
+            <td style="width: 1%"><a href="#" onClick="javascript:popup('{% url 'mail_delete' mail.id %}','mail_delete',500,250)"><img src="{% static 'img/supprimer.png' %}" height="15px"></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </table>
+
+</div>
+
+<!-- AFFICHAGE DU MOT DE PASSE -->
+
+<div class="form_background" id="mdp_view" style="z-index:101">
+  <div class="form_content" style="width:200px; height: 100px;">
+
+    <div class="form_title row1">
+      <div style="width: 93%; padding: 0.2em; text-align: center">mot de passe</div>
+      <div class="close_button" onclick="close_view('mdp_view')">X</div>
+    </div>
+    <div id="password" style="text-align:center; margin-top:1em">
+
+    </div>
+
+  </div>
+</div>
+
+
+{% endblock content %}

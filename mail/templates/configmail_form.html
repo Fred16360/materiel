@@ -1,0 +1,141 @@
+{% extends 'popup.html' %}
+{% load static %}
+
+{% block content %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+    })
+</script>
+
+
+<form method="post">
+
+    {% csrf_token %}
+    <div class="d-flex justify-content-center">
+
+        <div style="width:90%">
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.nom_societe.label }}</label>
+                </div>
+                <div class="col-4">
+                    {{ form.nom_societe }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.hebergeur_mail_id.label }}</label>
+                </div>
+                <div class="col-4">
+                    {{ form.hebergeur_mail_id }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.protocole.label }}</label>
+                </div>
+                <div class="col-2">
+                    {{ form.protocole }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.srv_entrant.label }}</label>
+                </div>
+                <div class="col-5">
+                    {{ form.srv_entrant }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.login_srv_entrant.label }}</label>
+                </div>
+                <div class="col-5">
+                    {{ form.login_srv_entrant }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.pwd_srv_entrant.label }}</label>
+                </div>
+                <div class="col-5">
+                    {{ form.pwd_srv_entrant }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.port_srv_entrant.label }}</label>
+                </div>
+                <div class="col-2">
+                    {{ form.port_srv_entrant }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.srv_sortant.label }}</label>
+                </div>
+                <div class="col-5">
+                    {{ form.srv_sortant }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.login_srv_sortant.label }}</label>
+                </div>
+                <div class="col-5">
+                    {{ form.login_srv_sortant }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.pwd_srv_sortant.label }}</label>
+                </div>
+                <div class="col-5">
+                    {{ form.pwd_srv_sortant }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.port_srv_sortant.label }}</label>
+                </div>
+                <div class="col-2">
+                    {{ form.port_srv_sortant }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.ssl_or_other.label }}</label>
+                </div>
+                <div class="col-3">
+                    {{ form.ssl_or_other }}
+                </div>
+            </div>
+            <div class="box">
+                <div class="col-5" style="text-align: end">
+                    <label>{{ form.authentification.label }}</label>
+                </div>
+                <div class="col-7">
+                    {{ form.authentification }}
+                </div>
+            </div>
+
+            <div class="box" style="justify-content: space-around; margin-top: 20px;">
+                <div class="col-4">
+                    <input type="submit" class="col-12 btn btn-primary btn-block" value="Ajouter" />
+                </div>
+                <div class="col-4">
+                    <a href="{% url 'mail_list' %}">
+                        <input type="cancel" class="col-12 btn btn-danger btn-block" value="Annuler" />
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+
+{% endblock content %}
