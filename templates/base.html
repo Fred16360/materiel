@@ -1,0 +1,187 @@
+{% load static %}
+
+<!--templates/base.html-->
+<!doctype html>
+<html lang="fr">
+
+<head>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.rtl.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-reboot.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-reboot.rtl.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-utilities.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-utilities.rtl.min.css' %}"> -->
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!--   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="{% static 'js/jquery-3.6.0.slim.min.js' %}"></script>-->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/dist/clipboard.min.js'%}"></script>
+
+    <title>Gestion Matériel Informatique</title>
+    <style>
+        body {
+            padding-top: 5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <div class="d-flex flex-nowrap justify-content-between col-12">
+
+                <div class="col-1">
+                    <a href="{% url 'index' %}" class="navbar-brand">Accueil</a>
+                </div>
+
+                <div class="col-6">
+                    <div id="navbarCollapse" class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav ml-auto">
+                            <!--
+                            {% if user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">Listes</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'personnel_list' %}">Personnel</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'equipement_list' %}">Equipement</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'mail_list' %}">Email</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'ripe_list' %}">Adresse Ip</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'configmail_list' %}">Configuration
+                                            Email</a>
+                                    </li>
+                                </ul>
+
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'societe_list' %}">Société</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'agence_list' %}">Agence</a>
+                                    </li>
+
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'hebergeurmail_list' %}">Hébergeur</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'typeequipement_list' %}">Type
+                                            Equipement</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'marque_list' %}">Marque</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'modele_list' %}">Modèle</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'seller_list' %}">Vendeur</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'typecompte_list' %}">Type de compte</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'compte_list' %}">Compte</a>
+                                    </li>
+                                </ul>
+
+                            </li>
+                            {% else %}
+                            <li class="nav-item dropdown">
+
+                            </li>
+                            {% endif %}
+                            -->
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-1">
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="navbarCollapse" class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav ml-auto">
+                            {% if user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.name}}</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a href="#" onClick="javascript:popup('{% url 'profile' %}','profil',500,500)" class="dropdown-item">Profil</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onClick="javascript:popup('{% url 'password_change' %}','password_change',500,560)" class="dropdown-item">Changer Mot de passe</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'logout' %}" class="dropdown-item">Déconnexion</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% else %}
+                            <li class="nav-item dropdown"><a href="{% url 'login' %}" class="nav-link">Connexion</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="display: flex; justify-content: center">
+
+        {% block content %}
+        {% endblock %}
+
+        {% block update %}
+        {% endblock %}
+
+    </div>
+
+    <div class="container-fluid" style="display: flex; justify-content: center">
+
+        {% block notes %}
+        {% endblock %}
+
+    </div>
+
+
+</body>

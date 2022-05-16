@@ -1,0 +1,37 @@
+{% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+    <title>Gestion de Matériel Informatique</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="{% static 'js/script.js' %}" async></script>
+</head>
+
+<!-- window.opener.location.reload() : recharge la page parente
+     window.close() : ferme la popup -->
+
+<body onunload="" style="overflow-x : hidden;">
+
+    {% block content %}
+
+    {% endblock content %}
+
+    <footer></footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    
+</body>
+
+</html>
