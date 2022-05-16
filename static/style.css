@@ -1,0 +1,202 @@
+body {
+    background-color: darkgrey;
+}
+
+a {
+    color: darkviolet;
+    text-decoration: none;
+}
+
+fieldset {
+    background-color: lightgray;
+    border: 1px solid black;
+    border-radius: 0.5em;
+    padding: 1em;
+}
+
+legend {
+    float: none;
+    width: auto;
+    margin: 0;
+}
+
+.ui-datepicker-trigger {
+    border: 0px;
+    background-color: transparent;
+    margin-top: 0.2em;
+}
+
+.popup_background {
+    display: block;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: #000;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.box {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.containernw {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.cadre_form {
+    background-color: lightgray;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.cadre_table {
+    border: solid 1px rgb(97, 97, 97);
+    padding: 3px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+label {
+    margin-bottom: 0px;
+    padding-top: 4px;
+    padding-right: 10px;
+}
+
+/* Surlignage des lignes de tableau gris/gris clair */
+.sl:nth-child(odd) {
+    background: rgb(240, 240, 240);
+}
+
+.sl:nth-child(even) {
+    background: rgb(210, 210, 210);
+}
+
+/* ------------------------------------------------ */
+
+.crudimg {
+    margin-top: 0.3em;
+    margin-left: 0.3em;
+}
+
+.box {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.form-check-input[type=checkbox] {
+    margin-top: 9px;
+}
+
+.form-control,
+.form-select {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+hr {
+    margin: 5px;
+}
+
+.write_by {
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.list {
+    overflow-y: scroll;
+}
+
+.form_background {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(201, 212, 201, 0.7);
+    z-index: 100;
+    display: none;
+}
+
+.form_content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid black;
+}
+
+.form_title {
+    background-color: rgba(5, 65, 70, 1.0);
+    color: white;
+}
+
+.row1 {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.close_button {
+    background-color: red;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding: 0.2em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ctrl_c {
+    cursor: pointer;
+}
+
+.plus {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.bouton_liste {
+    height: 250px;
+    border: 1px solid black;
+    width: 250px;
+    display: flex;
+    padding: 2em;
+    align-content: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.bouton_liste:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.54), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.bouton_liste>a>img {
+    width: 100%;
+    height: 100%;
+}
+
+.connexion {
+    height: 80px;
+    font-size: 2.5em;
+    align-items: center;
+    padding: 0.5em;
+    font-weight: 500;
+}
+
+.accueil {
+    color: black;
+    text-decoration: none;
+}
+
+.accueil:hover {
+    color: white;
+}

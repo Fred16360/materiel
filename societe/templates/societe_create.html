@@ -1,0 +1,48 @@
+{% extends 'popup.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <p style="height:10px"></p>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center">
+            <div class="col-11">
+                <div>
+                    <label>{{ form.nom_societe.label }}</label>
+                    {{ form.nom_societe }}
+                </div>
+                <div>
+                    <label>{{ form.siret.label }}</label>
+                    {{ form.siret }}
+                </div>
+                <div>
+                    <label>{{ form.ape.label }}</label>
+                    {{ form.ape }}
+                </div>
+                <div>
+                    <label>{{ form.nom_gerant.label }}</label>
+                    {{ form.nom_gerant }}
+                </div>
+
+                <div class="row mt-3 justify-content-around">
+                    <div class="col-4">
+                        <input type="submit" class="col-12 btn btn-primary btn-block" value="Ajouter" />
+                    </div>
+
+                    <div class="col-4">
+                        <a href="{% url 'personnel_list' %}">
+                            <input type="cancel" class="col-12 btn btn-danger btn-block" value="Annuler" />
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+{% endblock content %}

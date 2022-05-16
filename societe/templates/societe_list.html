@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid col-2">
+
+    <div>
+        <a href="#" onClick="javascript:popup('{% url 'societe_create' %}','societe_create',400,350)">
+            <button class="btn btn-success" style="font-size: 0.7rem;"><img src="{% static 'img/ajouter.png' %}" height="12px">
+                Ajout d'une société</button>
+        </a>
+    </div>
+
+    <table class="table table-light table-striped p0">
+        <div class="table-responsive">
+            <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+                <thead class="table-success">
+                    <tr>
+                        <th>Nom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for societe in societe_list %}
+                    <tr>
+                        <td style="width: 100%">
+                            <a href="#" onClick="javascript:popup('{% url 'societe_update' societe.id %}','societe_update', 400,350)">
+                                {{ societe.nom_societe }}
+                            </a>
+                        </td>
+                        <td style="width: 2%">
+                            <a href="#" onClick="javascript:popup('{% url 'societe_update' societe.id %}','societe_update', 400,350)">
+                                <img src="{% static 'img/modifier.png' %}" height="15px">
+                            </a>
+                        </td>
+                        <td style="width: 2%">
+                            <a href="#" onClick="javascript:popup('{% url 'societe_delete' societe.id %}','societe_delete',500,250)">
+                                <img src="{% static 'img/supprimer.png' %}" height="15px">
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </table>
+
+</div>
+
+{% endblock content %}
