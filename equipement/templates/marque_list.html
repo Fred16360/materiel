@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid col-2">
+
+  <div>
+    <a href="#" onClick="javascript:popup('{% url 'marque_create' %}','marque_create',400,200)">
+      <button class="btn btn-success" style="font-size: 0.7rem;"><img src="{% static 'img/ajouter.png' %}"
+          height="12px">
+        Ajout d'une marque</button>
+    </a>
+  </div>
+
+  <table class="table table-light table-striped p0">
+    <div class="table-responsive">
+      <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+        <thead class="table-success">
+          <tr>
+            <th>Nom</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for marque in marque_list %}
+          <tr>
+            <td style="width: 100%">
+              <a href="#" onClick="javascript:popup('{% url 'marque_update' marque.id %}','marque_update',350,180)">
+                {{ marque.nom_marque }}
+              </a>
+            </td>
+            <td style="width: 2%">
+              <a href="#" onClick="javascript:popup('{% url 'marque_update' marque.id %}','marque_update',350,180)">
+                <img src="{% static 'img/modifier.png' %}" height="15px">
+              </a>
+            </td>
+            <td style="width: 2%">
+              <a href="#" onClick="javascript:popup('{% url 'marque_delete' marque.id %}','marque_delete',500,200)">
+                <img src="{% static 'img/supprimer.png' %}" height="15px">
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </table>
+
+</div>
+
+{% endblock content %}

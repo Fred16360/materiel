@@ -1,0 +1,65 @@
+  {% extends base_template %}
+
+  {% load static %}
+
+
+  {% block content %}
+  <div class="container-fluid">
+    <p style="height:10px"></p>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="d-flex justify-content-center">
+        <div class="col-11">
+          <div class="box">
+            <div class="col-4" style="text-align: end">
+              <label>{{ form.ip_machine.label }}</label>
+            </div>
+            <div class="col-4" style="display: flex">
+              {{ form.ip_machine }}
+            </div>
+          </div>
+          <div class="box">
+            <div class="col-4" style="text-align: end">
+              <label>{{ form.equipement_id.label }}</label>
+            </div>
+            <div class="col-4" style="display: flex">
+              <select name="equipement_id" id="id_equipement_id" class="form-select form-select-sm">
+                <option value="">-----------------</option>
+                {% for equipement in list_equipement %}
+                {% if id_update == equipement.id %}
+                <option value="{{ equipement.id }}" selected>{{ equipement.sig_id }}</option>
+                {% else %}
+                <option value="{{ equipement.id }}">{{ equipement.sig_id }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="box">
+            <div class="col-4" style="text-align: end">
+              <label>{{ form.description.label }}</label>
+            </div>
+            <div class="col-8" style="display: flex">
+              {{ form.description }}
+            </div>
+          </div>
+          <div>
+            <div class="row mt-3 justify-content-around">
+              <div class="col-4">
+                <input type="submit" class="col-12 btn btn-primary btn-block" value="Ajouter" />
+              </div>
+
+              <div class="col-4">
+                <a href="{% url 'ripe_list' %}">
+                  <input type="cancel" class="col-12 btn btn-danger btn-block" value="Annuler" />
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    </form>
+
+  </div>
+
+  {% endblock content %}

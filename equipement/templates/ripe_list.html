@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid col-4">
+
+  <div>
+    <a href="#" onClick="javascript:popup('{% url 'ripe_create' %}','ripe_create',500,220)">
+      <button class="btn btn-success" style="font-size: 0.7rem;"><img src="{% static 'img/ajouter.png' %}" height="12px">
+        Ajout d'une adresse Ip</button>
+    </a>
+  </div>
+
+  <table class="table table-light table-striped p0">
+    <div class="table-responsive">
+      <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+        <thead class="table-success">
+          <tr>
+            <th>Adresse Ip</th>
+            <th>Nom Equipement</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ripe in ripe_list %}
+          <tr>
+            <td style="width: 25%">
+              <a href="#" onClick="javascript:popup('{% url 'ripe_update' ripe.id %}','ripe_update',500,220)">
+                {{ ripe.ip_machine }}
+              </a>
+            </td>
+            <td style="width: 25%">
+              {% if ripe.equipement_id != None %}
+              {{ ripe.equipement_id }}
+              {% endif %}
+            </td>
+            <td style="width: 50%">
+              {{ ripe.description }}
+            </td>
+            <td style="width: 2%">
+              <a href="#" onClick="javascript:popup('{% url 'ripe_update' ripe.id %}','ripe_update',500,220)">
+                <img src="{% static 'img/modifier.png' %}" height="15px">
+              </a>
+            </td>
+            <td style="width: 2%">
+              <a href="#" onClick="javascript:popup('{% url 'ripe_delete' ripe.id %}','ripe_delete',500,200)">
+                <img src="{% static 'img/supprimer.png' %}" height="15px">
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </table>
+
+</div>
+
+{% endblock content %}

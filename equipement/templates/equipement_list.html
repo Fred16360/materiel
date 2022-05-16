@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<script>
+  function list_equipement() {
+    document.getElementById('list_equipement').style.display = "block";
+    document.getElementById('list_equipement_libre').style.display = "none";
+  }
+
+  function list_equipement_libre() {
+    document.getElementById('list_equipement').style.display = "none";
+    document.getElementById('list_equipement_libre').style.display = "block";
+  }
+</script>
+
+<div class="container-fluid col col-lg-8 col-md-8">
+
+  <div style="display:flex; flex-wrap: nowrap">
+    <a href="{% url 'equipement_create' %}">
+      <button class="btn btn-success" style="font-size: 0.7rem; margin-right: 10px;"><img
+          src="{% static 'img/ajouter.png' %}" height="12px">
+        Ajout d'un équipement</button>
+    </a>
+    <a href="#" onclick="list_equipement()">
+      <button class="btn btn-primary" style="font-size: 0.7rem; margin-right: 10px;">Liste des équipements</button>
+    </a>
+    <a href="#" onclick="list_equipement_libre()">
+      <button class="btn btn-primary" style="font-size: 0.7rem; margin-right: 10px;">Equipements libres</button>
+    </a>
+  </div>
+
+  <div id="list_equipement">
+    <table class="table table-light table-striped p0">
+      <div class="table-responsive">
+        <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+          <thead class="table-success">
+            <tr>
+              <th>Réf SIG</th>
+              <th>Type</th>
+              <th>Marque</th>
+              <th>Modèle</th>
+              <th>N° série</th>
+              <th>Vendeur</th>
+              <th>Date d'achat</th>
+              <th>Fin de garantie</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for equipement in equipement_list %}
+            <tr>
+              <td style="width: 8%">
+                <a href="{% url 'equipement_update' equipement.id %}">
+                  {{ equipement.sig_id }}
+                </a>
+              </td>
+              <td style="width: 8%">
+                {{ equipement.type_id }}
+              </td>
+              <td style="width: 8%">
+                {{ equipement.marque }}
+              </td>
+              <td style="width: 22%">
+                {{ equipement.modele }}
+              </td>
+              <td style="width: 8%">
+                {{ equipement.num_serie }}
+              </td>
+              <td style="width: 10%">
+                {{ equipement.seller_id }}
+              </td>
+              <td style="width: 8%">
+                {{ equipement.buy_date }}
+              </td>
+              <td style="width: 8%">
+                {{ equipement.guarantee_end_date }}
+              </td>
+
+              <td style="width: 2%">
+                <a href="{% url 'equipement_update' equipement.id %}">
+                  <img src="{% static 'img/modifier.png' %}" height="15px">
+                </a>
+              </td>
+              <td style="width: 2%">
+                <a href="#"
+                  onClick="javascript:popup('{% url 'equipement_delete' equipement.id %}','equipement_delete',500,200)">
+                  <img src="{% static 'img/supprimer.png' %}" height="15px">
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </table>
+  </div>
+</div>
+
+<div id="list_equipement_libre" class="container-fluid col col-lg-8 col-md-8" style="display: none">
+  <table class="table table-light table-striped p0">
+    <div class="table-responsive">
+      <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+        <thead class="table-success">
+          <tr>
+            <th>Réf SIG</th>
+            <th>Type</th>
+            <th>Marque</th>
+            <th>Modèle</th>
+            <th>N° série</th>
+            <th>Vendeur</th>
+            <th>Date d'achat</th>
+            <th>Fin de garantie</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for equipement in equipement_libre_list %}
+          <tr>
+            <td style="width: 8%">
+              <a href="{% url 'equipement_update' equipement.id %}">
+                {{ equipement.sig_id }}
+              </a>
+            </td>
+            <td style="width: 8%">
+              {{ equipement.type_id }}
+            </td>
+            <td style="width: 8%">
+              {{ equipement.marque }}
+            </td>
+            <td style="width: 22%">
+              {{ equipement.modele }}
+            </td>
+            <td style="width: 8%">
+              {{ equipement.num_serie }}
+            </td>
+            <td style="width: 10%">
+              {{ equipement.seller_id }}
+            </td>
+            <td style="width: 8%">
+              {{ equipement.buy_date }}
+            </td>
+            <td style="width: 8%">
+              {{ equipement.guarantee_end_date }}
+            </td>
+
+            <td style="width: 2%">
+              <a href="{% url 'equipement_update' equipement.id %}">
+                <img src="{% static 'img/modifier.png' %}" height="15px">
+              </a>
+            </td>
+            <td style="width: 2%">
+              <a href="#"
+                onClick="javascript:popup('{% url 'equipement_delete' equipement.id %}','equipement_delete',500,200)">
+                <img src="{% static 'img/supprimer.png' %}" height="15px">
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </table>
+</div>
+</div>
+
+
+{% endblock content %}

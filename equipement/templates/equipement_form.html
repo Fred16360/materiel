@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // CALENDRIER POUR LES SAISIES DE DATE
+        $.datepicker.regional['fr'] = {
+            closeText: 'Fermer',
+            prevText: '&#x3c;Préc',
+            nextText: 'Suiv&#x3e;',
+            currentText: 'Aujourd\'hui',
+            monthNames: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin',
+                'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'
+            ],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun',
+                'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'
+            ],
+            dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+            dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+            dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            minDate: '-30Y',
+            maxDate: '+10Y',
+            numberOfMonths: 1,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults($.datepicker.regional['fr']);
+
+        $("#id_buy_date").datepicker({
+            showOn: "button",
+            buttonImage: "/static/img/calendrier20.png",
+        });
+
+        $("#id_guarantee_end_date").datepicker({
+            showOn: "button",
+            buttonImage: "/static/img/calendrier20.png",
+        });
+
+        $("#id_type_id").focusin(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'typeequipement_load' %}",
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    let rows = '';
+                    data.typeequipement_list.forEach(typeequipement => {
+                        rows += `
+                            <select value="${ typeequipement.id }"">${ typeequipement.nom_type }</select> `;
+                    });
+
+                }
+            });
+        })
+
+        $("#id_marque").focusin(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'marque_load' %}",
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    let rows = '';
+                    data.marque_list.forEach(marque => {
+                        rows += `
+                            <select value="${ marque.id }"">${ marque.nom_marque }</select> `;
+                    });
+
+                }
+            });
+        })
+
+        $("#id_modele").focusin(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'modele_load' %}",
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    let rows = '';
+                    data.modele_list.forEach(modele => {
+                        rows += `
+                            <select value="${ modele.id }">${ modele.nom_modele }</select> `;
+                    });
+
+                }
+            });
+        })
+
+
+
+        $("#note_equipement").focusin(function (e) {
+            e.preventDefault();
+            $("#note_equipement").html("");
+        })
+
+        $("#note_equipement").focusout(function (e) {
+            e.preventDefault();
+            if ($("#note_equipement").html() == "") {
+                $("#note_equipement").html("votre message !");
+            }
+        })
+
+    })
+</script>
+
+{% if create == 0 %}
+<script>
+    $(document).ready(function () {
+        $("#insert_note_form").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'save_note_equipement' equipement_id %}",
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    note_equipement: $('#note_equipement').html(),
+                },
+                success: function (data) {
+                    let rows = '';
+                    data.equipementnote_list.forEach(equipementnote => {
+                        rows += `
+                            <span class="write_by">${ equipementnote.write_by_id }${ equipementnote.write_date }</span>
+                            <br>
+                            <span>${ equipementnote.note }</span>
+                            <hr> `;
+                    });
+                    $("#list_notes").empty().append(rows);
+                    $("#note_equipement").empty().html("votre message !");
+                }
+            });
+        })
+
+    })
+</script>
+{% endif %}
+
+
+
+<div style="width:100%">
+    <div style="display:flex; flex-wrap:nowrap; justify-content:center">
+        <div style="width: 25%">
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <fieldset>
+                    <legend>Equipement</legend>
+
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.sig_id.label }}</label>
+                        </div>
+                        <div class="col-7">
+                            {{ form.sig_id }}
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.type_id.label }}</label>
+                        </div>
+                        <div class="col-5">
+                            {{ form.type_id }}
+                        </div>
+                        <div class="col-1 plus">
+                            <a href="#" onClick="javascript:popup('{% url 'typeequipement_create' %}','type_equipement_create',350,200)">
+                                <img src="{% static 'img/ajouter.png' %}" height="18px">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.marque.label }}
+                        </div>
+                        <div class="col-5" style="display: flex">
+                            {{ form.marque }}
+                        </div>
+                        <div class="col-1 plus">
+                            <a href="#" onClick="javascript:popup('{% url 'marque_create' %}','marque_create',350,200)">
+                                <img src="{% static 'img/ajouter.png' %}" height="18px">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.modele.label }}
+                        </div>
+                        <div class="col-6" style="display: flex">
+                            {{ form.modele }}
+                        </div>
+                        <div class="col-1 plus">
+                            <a href="#" onClick="javascript:popup('{% url 'modele_create' %}','modele_create',350,200)">
+                                <img src="{% static 'img/ajouter.png' %}" height="18px">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.num_serie.label }}
+                        </div>
+                        <div class="col-7" style="display: flex">
+                            {{ form.num_serie }}
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.seller_id.label }}
+                        </div>
+                        <div class="col-5" style="display: flex;">
+                            {{ form.seller_id }}
+                        </div>
+                        <div class="col-1 plus">
+                            <a href="#" onClick="javascript:popup('{% url 'seller_create' %}','seller_create',400,180)">
+                                <img src="{% static 'img/ajouter.png' %}" height="18px">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.buy_date.label }}
+                        </div>
+                        <div class="col-4" style="display: flex;">
+                            {{ form.buy_date }}
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.guarantee_end_date.label }}</label>
+                        </div>
+                        <div class="col-4" style="display: flex;">
+                            {{ form.guarantee_end_date }}
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.mac_addr1.label }}
+                        </div>
+                        <div class="col-7" style="display: flex;">
+                            {{ form.mac_addr1 }}
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="col-5" style="text-align: end">
+                            <label>{{ form.mac_addr2.label }}
+                        </div>
+                        <div class="col-7" style="display: flex;">
+                            {{ form.mac_addr2 }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 justify-content-around">
+                        <div class="col-4">
+                            <input type="submit" class="col-12 btn btn-primary btn-block" value="Ajouter" />
+                        </div>
+
+                        <div class="col-4">
+                            <a href="{% url 'equipement_list' %}">
+                                <input type="cancel" class="col-12 btn btn-danger btn-block" value="Annuler" />
+                            </a>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+        {% if create == 0 %}
+        <!-- LISTE DES NOTES -->
+        <div style="width:25%">
+            <form method="post" id="insert_note_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="list" style="height: 440px">
+                    <legend>Notes</legend>
+                    <div id="list_notes">
+                        {% for equipementnote in list_equipementnote %}
+                        <span class="write_by">{{ equipementnote.write_by_id }}
+                            {{ equipementnote.write_date|date:"d/m/Y h:i:s" }}</span>
+                        <br>
+                        <span>{{ equipementnote.note|safe }}</span>
+                        <hr>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+                <div class="box">
+
+                    <div contenteditable="true" id="note_equipement" class="form-control form-control-sm" style="width: 95%">
+                        votre message !</div>
+
+                    <input name="insert_note" id="insert_note" type="image" src="{% static '/img/ajouter.png' %}" height="23" style="margin-top: 5px">
+                </div>
+
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if create == 0 %}
+    <!-- LISTE DES EQUIPEMENTS EN RELATION -->
+    <div style="display:flex; justify-content:center">
+
+        <div style="width: 25%; min-width:460px">
+            <div id="list_personnel">
+
+                <fieldset style="height: auto">
+                    <legend>Personnel</legend>
+
+                    <div>
+                        <table class="table table-light align-center table-striped table-hover" style="font-size: 0.7rem;">
+                            {% for personnel in list_personnel %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'personnel_update' personnel.personnel_id.id %}" target="_blank">
+                                        {{ personnel.personnel_id.nom }}
+                                    </a>
+                                </td>
+                                <td>{{ personnel.personnel_id.prenom }}</td>
+                                <td>{{ personnel.personnel_id.societe_id }}</td>
+                                <td>{{ personnel.personnel_id.agence_id }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+        <div style="width:25%"></div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock content %}
